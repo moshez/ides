@@ -1,13 +1,16 @@
 from __future__ import print_function
 
 import argparse
+import functools
+import pathlib
 import os
 import shutil
 import subprocess
+import sys
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument("--outdir", default="build")
-PARSER.add_argument("--input", required=True)
+PARSER.add_argument("--input", default="talk.ipynb")
 
 TALK_HEADER = r"""
 \documentclass[ignorenonframetext]{beamer}
