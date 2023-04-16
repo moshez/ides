@@ -26,6 +26,10 @@ def make_talk(*, args, workdir, runner):
     run = functools.partial(runner, check=True, cwd=build)
     build.mkdir(exist_ok=True)
     shutil.copy(args.input, build / "base_talk.ipynb")
+    input_dir = pathlib.Path(args.input).absolute().parent
+    for extension in ["*.jpeg", "*.jpg", "*.png"]:
+        for child in pathlib.Path(input_dir).glob(extension):
+            shutil.copy(os.fspath(child), build / child.name)
     jupyter = pathlib.Path(sys.executable).parent / "jupyter"
     run(["jupyter", "nbconvert", "base_talk.ipynb", "--to", "markdown",
          '--TagRemovePreprocessor.remove_cell_tags={"no_markdown"}',
